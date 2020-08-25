@@ -12,12 +12,12 @@ interface LoggerOptions {
 }
 
 export interface Context {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface LogFn {
   (msg: string, ...args: any[]): void;
-  (obj: object, msg?: string, ...args: any[]): void;
+    (obj: any, msg?: string, ...args: unknown[]): void;
 }
 
 export interface Logger {
@@ -35,9 +35,9 @@ export interface Logger {
 function makeLog(level: string) {
   return function log(
     this: Logger,
-    obj: object | string,
+      obj: Record<string, unknown> | string,
     msg?: string | undefined,
-    ...args: any[]
+    ...args: unknown[]
   ): void {
     if (typeof obj === "string") this.instance[level](obj, ...args);
     else this.instance[level](obj, msg, ...args);
@@ -65,7 +65,7 @@ function makeOpts(opts: Partial<LoggerOptions>): Pino.LoggerOptions {
     timestamp: false,
     level: opts.level || process.env.CAZOO_LOGGER_LEVEL || "info",
     formatters: {
-      level(label, number) {
+      level(label) {
         return { level: label };
       }
     },

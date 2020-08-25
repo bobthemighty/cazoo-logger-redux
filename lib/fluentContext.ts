@@ -4,14 +4,23 @@ function withData<TLogger extends Logger> (this: TLogger, data: Context) : TLogg
     return child(this, {data})
 }
 
-interface FluentContext {
+function withContext<TLogger extends Logger> (this: TLogger, context: Context) : TLogger {
+    return child(this, {context})
+}
+
+export interface FluentContext {
     withData: (data: Context) => this
+    withContext: (context: Context) => this
 }
 
 export function addFluentContext<TLogger extends Logger>(target: TLogger) : TLogger & FluentContext {
     return Object.defineProperties(target, {
         withData: {
             value: withData,
+            enumerable: true
+        },
+        withContext: {
+            value: withContext,
             enumerable: true
         }
     })

@@ -1,4 +1,9 @@
-import {PinoLogger} from './core'
-import { addFluentContext } from "./fluentContext"
+import { PinoLogger, Logger } from "./core";
+import { addFluentContext, FluentContext } from "./fluentContext";
+import { addTimeout, TimeoutLogger } from "./timeout";
 
-export function empty (options = {}) { return addFluentContext(PinoLogger(options)) }
+type CazooLogger = Logger & TimeoutLogger & FluentContext;
+
+export function empty(options = {}): CazooLogger {
+  return addTimeout(addFluentContext(PinoLogger(options)));
+}

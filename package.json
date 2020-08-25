@@ -1,0 +1,33 @@
+{
+  "name": "cazoo-logger",
+  "version": "7.0.0-alpha",
+  "description": "Codified standards for structured logging",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "eslint": "^7.7.0",
+    "jest": "^26.4.2",
+    "pino": "^6.5.1",
+    "split2": "^3.2.2",
+    "ts-jest": "^26.2.0",
+    "typescript": "^4.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cazoo-uk/logger.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cazoo-uk/logger/issues"
+  },
+  "homepage": "https://github.com/Cazoo-uk/logger#readme"
+}

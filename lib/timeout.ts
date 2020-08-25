@@ -1,6 +1,6 @@
-import {PinoLogger} from "./core"
+import {Logger} from "./core"
 
-interface TimeoutLogger {
+export interface TimeoutLogger {
     timeoutHandle?: NodeJS.Timeout;
     setTimeout: () => void;
     clearTimeout: () => void;
@@ -15,7 +15,7 @@ function _clearTimeout(this: TimeoutLogger) {
     if (this.timeoutHandle) clearTimeout(this.timeoutHandle);
 }
 
-function addTimeout<T extends PinoLogger>(target: T): T & TimeoutLogger {
+export function addTimeout<T extends Logger>(target: T): T & TimeoutLogger {
     const enumerable = true;
     return Object.defineProperties(target, {
         setTimeout: {
