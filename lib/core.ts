@@ -6,9 +6,10 @@ type OutputSpec = SonicBoom | NodeJS.WritableStream;
 
 type Level = "debug" | "info" | "warn" | "error";
 
-interface LoggerOptions {
-  stream: OutputSpec;
+export interface LoggerOptions {
   level: Level;
+  service: string;
+  stream: OutputSpec;
 }
 
 export interface Context {
@@ -17,7 +18,7 @@ export interface Context {
 
 export interface LogFn {
   (msg: string, ...args: any[]): void;
-    (obj: any, msg?: string, ...args: unknown[]): void;
+  (obj: any, msg?: string, ...args: unknown[]): void;
 }
 
 export interface Logger {
@@ -35,7 +36,7 @@ export interface Logger {
 function makeLog(level: string) {
   return function log(
     this: Logger,
-      obj: Record<string, unknown> | string,
+    obj: Record<string, unknown> | string,
     msg?: string | undefined,
     ...args: unknown[]
   ): void {
@@ -60,7 +61,10 @@ export function child<T extends Logger>(logger: T, context: Context): T {
   };
 }
 
-function makeOpts(opts: Partial<LoggerOptions>): Pino.LoggerOptions {
+function makeOpts(
+  opts: Partial<LoggerOptions>,
+  context?: Context
+): Pino.LoggerOptions {
   return {
     timestamp: false,
     level: opts.level || process.env.CAZOO_LOGGER_LEVEL || "info",
@@ -69,18 +73,20 @@ function makeOpts(opts: Partial<LoggerOptions>): Pino.LoggerOptions {
         return { level: label };
       }
     },
-    base: null
+    base: context || null
   };
 }
 
-export function PinoLogger(options: Partial<LoggerOptions> = {}): Logger {
-  const context: Context = {};
+export function PinoLogger(
+  options: Partial<LoggerOptions> = {},
+  context?: Context
+): Logger {
   const output = makeOutput(options.stream);
-  const pinoOpts = makeOpts(options);
+  const pinoOpts = makeOpts(options, context);
   const instance = Pino(pinoOpts, output);
 
   return {
-    context,
+    context: context || {},
     instance,
     output,
 
