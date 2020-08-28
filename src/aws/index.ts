@@ -2,11 +2,14 @@ import {Context} from 'aws-lambda';
 import {Logger, LoggerOptions, PinoLogger, LogExtension} from '../core';
 import {forSns} from './sns';
 import {forApiGateway} from './apiGateway';
+import {forCloudFront} from './cloudfront';
 import {AnyEvent} from './anyEvent';
 
 function fromContext(event: AnyEvent, ctx: Context, options = {}) {
   const context =
-    forApiGateway(event, ctx, options) || forSns(event, ctx, options);
+    forApiGateway(event, ctx, options) ||
+    forSns(event, ctx, options) ||
+    forCloudFront(event, ctx, options);
   return PinoLogger(options, {context});
 }
 

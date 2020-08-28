@@ -7,7 +7,6 @@ import has from '../hasOwnProperty';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isSNS(event: any): event is SNSEvent {
   if (!has('Records', event)) return false;
-  if (!event.Records) return false;
   if (!Array.isArray(event.Records)) return false;
   return event.Records.length > 0 && event.Records[0].EventSource === 'aws:sns';
 }
