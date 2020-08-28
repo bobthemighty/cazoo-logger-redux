@@ -2,36 +2,7 @@ import SonicBoom from "sonic-boom";
 import Pino from "pino";
 import deepmerge from "deepmerge";
 
-type OutputSpec = SonicBoom | NodeJS.WritableStream;
-
-type Level = "debug" | "info" | "warn" | "error";
-
-export interface LoggerOptions {
-  level: Level;
-  service: string;
-  stream: OutputSpec;
-}
-
-export interface Context {
-  [key: string]: unknown;
-}
-
-export interface LogFn {
-  (msg: string, ...args: any[]): void;
-  (obj: any, msg?: string, ...args: unknown[]): void;
-}
-
-export interface Logger {
-  debug: LogFn;
-  info: LogFn;
-  warn: LogFn;
-  error: LogFn;
-
-  context: Context;
-
-  output: OutputSpec;
-  instance: Pino.Logger;
-}
+import { OutputSpec, LoggerOptions, Context, Logger} from './types'
 
 function makeLog(level: string) {
   return function log(

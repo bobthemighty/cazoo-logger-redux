@@ -1,11 +1,13 @@
 import { Context } from "aws-lambda"
-import { Logger, PinoLogger } from "../core"
+import { Logger } from "../types"
+import { PinoLogger } from "../core"
 import { forSns } from "./sns"
+import { forApiGateway } from "./apiGateway"
+import { LogExtension } from "../types"
 
-type LogExtension<T extends Logger, S extends Logger> = (base: T) => S
 
 function fromContext(event: object, ctx: Context, options = {}) {
-    const context = forSns(event, ctx, options);
+    const context = forApiGateway(event, ctx, options) || forSns(event, ctx, options);
     return PinoLogger(options, {context })
 }
 
