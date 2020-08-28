@@ -3,7 +3,7 @@ import { addFluentContext, FluentContext } from "./fluentContext";
 import { addTimeout, TimeoutLogger } from "./timeout";
 import { Context as AwsContext } from "aws-lambda";
 
-import { contextFactory } from "./events";
+import { contextFactory } from "./aws";
 
 type CazooLogger = Logger & TimeoutLogger & FluentContext;
 
