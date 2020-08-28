@@ -1,4 +1,4 @@
-import { baseContext } from './baseContext'
+import {baseContext} from './baseContext';
 
 export const context = {
   ...baseContext,
@@ -9,7 +9,7 @@ export const context = {
   awsRequestId: 'request-id',
   logGroupName: 'log-group',
   logStreamName: 'log-stream',
-}
+};
 
 export const event = {
   Records: [
@@ -37,7 +37,7 @@ export const event = {
       },
     },
   ],
-}
+};
 
 export const nonS3Event = {
   Records: [
@@ -73,4 +73,4 @@ export const nonS3Event = {
       },
     },
   ],
-}
+};

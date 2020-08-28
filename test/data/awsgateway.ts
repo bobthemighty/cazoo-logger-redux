@@ -1,9 +1,9 @@
-import { baseContext } from './baseContext'
+import {baseContext} from './baseContext';
 import {
   Context,
   APIGatewayEventRequestContext,
   APIGatewayProxyEvent,
-} from 'aws-lambda'
+} from 'aws-lambda';
 
 export const context: Context = {
   ...baseContext,
@@ -14,7 +14,7 @@ export const context: Context = {
   awsRequestId: 'request-id',
   logGroupName: 'log-group',
   logStreamName: 'log-stream',
-}
+};
 
 const baseIdentity = {
   accessKey: null,
@@ -31,7 +31,7 @@ const baseIdentity = {
   userAgent: null,
   userArn: null,
   principalOrgId: 'my-org',
-}
+};
 
 const baseRequestContext: APIGatewayEventRequestContext = {
   accountId: '',
@@ -46,7 +46,7 @@ const baseRequestContext: APIGatewayEventRequestContext = {
   resourcePath: '',
   protocol: 'http',
   authorizer: null,
-}
+};
 
 const baseEvent: APIGatewayProxyEvent = {
   resource: '/{proxy+}',
@@ -126,9 +126,9 @@ const baseEvent: APIGatewayProxyEvent = {
   },
   body: '{\r\n\t"a": 1\r\n}',
   isBase64Encoded: false,
-}
+};
 
-export const event: APIGatewayProxyEvent = baseEvent
+export const event: APIGatewayProxyEvent = baseEvent;
 
 export const websocketEvent: APIGatewayProxyEvent = {
   ...baseEvent,
@@ -163,4 +163,4 @@ export const websocketEvent: APIGatewayProxyEvent = {
     apiId: 'mv55h24unj',
   },
   isBase64Encoded: false,
-}
+};

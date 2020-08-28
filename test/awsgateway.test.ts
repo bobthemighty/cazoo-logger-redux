@@ -1,21 +1,19 @@
-import * as logger from '../lib'
-import { sink } from './helper'
-import { event, websocketEvent, context } from './data/awsgateway'
+import * as logger from '../src';
+import {sink} from './helper';
+import {event, websocketEvent, context} from './data/awsgateway';
 
 it('When logging in an API Gateway event context', () => {
-  const stream = sink()
+  const stream = sink();
 
-  const log = logger.fromContext(event, context, { stream })
-  log.info('Hello world')
+  const log = logger.fromContext(event, context, {stream});
+  log.info('Hello world');
 
-  const result = stream.read()
+  const result = stream.read();
 
   expect(result).toStrictEqual({
     level: 'info',
     context: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       request_id: context.awsRequestId,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       account_id: event.requestContext.accountId,
       function: {
         name: context.functionName,
@@ -33,23 +31,21 @@ it('When logging in an API Gateway event context', () => {
       },
     },
     msg: 'Hello world',
-  })
-})
+  });
+});
 
 it('When logging a websocket request', () => {
-  const stream = sink()
+  const stream = sink();
 
-  const log = logger.fromContext(websocketEvent, context, { stream })
-  log.info('Hello world')
+  const log = logger.fromContext(websocketEvent, context, {stream});
+  log.info('Hello world');
 
-  const result = stream.read()
+  const result = stream.read();
 
   expect(result).toMatchObject({
     level: 'info',
     context: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       request_id: context.awsRequestId,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       account_id: event.requestContext.accountId,
       function: {
         name: context.functionName,
@@ -63,5 +59,5 @@ it('When logging a websocket request', () => {
       },
     },
     msg: 'Hello world',
-  })
-})
+  });
+});

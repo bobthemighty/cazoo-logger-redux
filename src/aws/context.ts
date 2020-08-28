@@ -1,17 +1,11 @@
-import {
-  Context,
-  SNSEvent,
-  SNSMessage,
-  SNSEventRecord,
-  S3Event
-} from "aws-lambda";
-import { LoggerOptions } from "../core";
+import {Context} from 'aws-lambda';
+import {LoggerOptions} from '../core';
 
 function parseAccountId(arn: string): string {
   if (!arn) {
-    return "missing";
+    return 'missing';
   }
-  const parts = arn.split(":");
+  const parts = arn.split(':');
   if (parts.length >= 5) {
     return parts[4];
   }
@@ -26,24 +20,22 @@ export interface LoggerContext {
     version: string;
     service?: string;
   };
-  [property: string]: any;
+  [property: string]: unknown;
 }
 
 export function makeContext(
   ctx: Context,
   options: Partial<LoggerOptions>,
-  extra: any
+  extra: Record<string, unknown>
 ): LoggerContext {
   return {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     request_id: ctx.awsRequestId,
-    // eslint-disable-next-line @typescript-eslint/camelcase
     account_id: parseAccountId(ctx.invokedFunctionArn),
     function: {
       name: ctx.functionName,
       version: ctx.functionVersion,
-      service: options.service || process.env.CAZOO_LOGGER_SERVICE || "Unknown"
+      service: options.service || process.env.CAZOO_LOGGER_SERVICE || 'Unknown',
     },
-    ...extra
+    ...extra,
   };
 }

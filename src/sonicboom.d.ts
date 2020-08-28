@@ -5,28 +5,23 @@
 
 /// <reference types="node"/>
 
-declare module "sonic-boom" {
+declare module 'sonic-boom' {
+  import {EventEmitter} from 'events';
 
-import { EventEmitter } from 'events';
+  export = SonicBoom;
 
-export = SonicBoom;
+  type Destination = {fd: number} | {dest: string};
 
+  interface Options {
+    minLength?: number;
+    sync?: boolean;
+  }
 
-    type Destination =
-        {fd: number } |
-        {dest: string}
-
-    interface Options  {
-        minLength?: number
-        sync?: boolean
-    }
-
-
-class SonicBoom extends EventEmitter {
+  class SonicBoom extends EventEmitter {
     /**
      * @returns a new sonic-boom instance
      */
-    constructor(opts: Destination & Options)
+    constructor(opts: Destination & Options);
 
     /**
      * Writes the string to the file. It will return false to signal the producer to slow down.
@@ -58,5 +53,5 @@ class SonicBoom extends EventEmitter {
      * Closes the stream immediately, the data is not flushed.
      */
     destroy(): void;
-}
+  }
 }

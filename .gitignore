@@ -79,3 +79,4 @@ TEST-results.xml
 .nyc_output
 dist/
 .wallaby.conf.js
+build/
