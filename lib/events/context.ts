@@ -5,7 +5,7 @@ import {
   SNSEventRecord,
   S3Event
 } from "aws-lambda";
-import { LoggerOptions } from "./core";
+import { LoggerOptions } from "../core";
 
 function parseAccountId(arn: string): string {
   if (!arn) {

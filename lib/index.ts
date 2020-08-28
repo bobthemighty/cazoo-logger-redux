@@ -3,22 +3,17 @@ import { addFluentContext, FluentContext } from "./fluentContext";
 import { addTimeout, TimeoutLogger } from "./timeout";
 import { Context as AwsContext } from "aws-lambda";
 
-import { forSns } from "./awsContexts";
+import { contextFactory } from "./events";
 
 type CazooLogger = Logger & TimeoutLogger & FluentContext;
 
-function logger(
-  options: Partial<LoggerOptions> = {},
-  bindings?: Context
-): CazooLogger {
-  return addTimeout(addFluentContext(PinoLogger(options, bindings)));
+function logger(base: Logger): CazooLogger {
+  return addTimeout(addFluentContext(base));
 }
 
 export function empty(options = {}): CazooLogger {
-  return logger(options);
+  return logger(PinoLogger(options));
 }
 
-export function fromContext(event: object, ctx: AwsContext, options = {}) {
-  const context = forSns(event, ctx, options);
-  return context ? logger(options, { context }) : empty(options);
-}
+
+export const fromContext = contextFactory(l => addTimeout(addFluentContext(l)));

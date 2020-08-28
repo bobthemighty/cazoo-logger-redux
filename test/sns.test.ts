@@ -2,11 +2,6 @@
 import * as logger from "../lib";
 import { sink, once } from "./helper";
 import { event, nonS3Event, context } from "./data/sns";
-import { isSNS } from "../lib/awsContexts";
-
-it("Should correctly identify an SNS event", () => {
-  expect(isSNS(event)).toBe(true);
-});
 
 it("When logging in an S3 SNS context", async () => {
   const stream = sink();
