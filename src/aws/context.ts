@@ -12,7 +12,7 @@ function parseAccountId(arn: string): string {
   return `unknown (${arn})`;
 }
 
-export interface LoggerContext {
+export interface ContextInfo extends Record<string, unknown> {
   request_id: string;
   account_id: string;
   function: {
@@ -20,22 +20,32 @@ export interface LoggerContext {
     version: string;
     service?: string;
   };
-  [property: string]: unknown;
 }
 
-export function makeContext(
+export interface LambdaContext<T extends ContextInfo = ContextInfo>
+  extends Record<string, unknown> {
+  context: T;
+}
+
+export function makeContext<
+  TContext extends ContextInfo = ContextInfo,
+  TExtra extends Record<string, unknown> = Record<string, unknown>
+>(
   ctx: Context,
   options: Partial<LoggerOptions>,
-  extra: Record<string, unknown>
-): LoggerContext {
+  extra: TExtra
+): LambdaContext<ContextInfo & TExtra> {
   return {
-    request_id: ctx.awsRequestId,
-    account_id: parseAccountId(ctx.invokedFunctionArn),
-    function: {
-      name: ctx.functionName,
-      version: ctx.functionVersion,
-      service: options.service || process.env.CAZOO_LOGGER_SERVICE || 'Unknown',
+    context: {
+      request_id: ctx.awsRequestId,
+      account_id: parseAccountId(ctx.invokedFunctionArn),
+      function: {
+        name: ctx.functionName,
+        version: ctx.functionVersion,
+        service:
+          options.service || process.env.CAZOO_LOGGER_SERVICE || 'Unknown',
+      },
+      ...extra,
     },
-    ...extra,
   };
 }

@@ -8,14 +8,12 @@ export type OutputSpec = SonicBoom | NodeJS.WritableStream;
 
 export type Level = 'debug' | 'info' | 'warn' | 'error';
 
+export type Context = Record<string, unknown>;
+
 export interface LoggerOptions {
   level: Level;
   service: string;
   stream: OutputSpec;
-}
-
-export interface Context {
-  [key: string]: unknown;
 }
 
 export interface LogFn {
@@ -23,19 +21,24 @@ export interface LogFn {
   (obj: Record<string, unknown>, msg?: string): void;
 }
 
-export interface Logger {
+export interface Logger<TContext extends Context = Context> {
   debug: LogFn;
   info: LogFn;
   warn: LogFn;
   error: LogFn;
 
-  context: Context;
+  context: TContext;
 
   output: OutputSpec;
   instance: Pino.Logger;
 }
 
-export type LogExtension<T extends Logger, S extends Logger> = (base: T) => S;
+export type LogExtension<
+  T extends Logger<TContext>,
+  S extends Logger<SContext>,
+  TContext extends Context,
+  SContext extends Context
+> = (base: T) => S;
 
 // Impl
 
@@ -81,16 +84,16 @@ function makeOpts(
   };
 }
 
-export function PinoLogger(
+export function PinoLogger<TContext extends Context>(
   options: Partial<LoggerOptions> = {},
-  context?: Context
-): Logger {
+  context: TContext
+): Logger<TContext> {
   const output = makeOutput(options.stream);
   const pinoOpts = makeOpts(options, context);
   const instance = Pino(pinoOpts, output);
 
   return {
-    context: context || {},
+    context: context,
     instance,
     output,
 

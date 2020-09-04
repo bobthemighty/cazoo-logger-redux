@@ -1,6 +1,6 @@
 import {CloudFrontRequestEvent, Context} from 'aws-lambda';
 import {AnyEvent} from './anyEvent';
-import {LoggerContext, makeContext} from './context';
+import {LambdaContext, makeContext} from './context';
 import {LoggerOptions} from '../core';
 
 function isCloudFront(event: AnyEvent): event is CloudFrontRequestEvent {
@@ -13,7 +13,7 @@ export function forCloudFront(
   event: AnyEvent,
   context: Context,
   options: Partial<LoggerOptions>
-): LoggerContext | undefined {
+): LambdaContext | undefined {
   if (!isCloudFront(event)) return;
 
   const cf = event.Records[0].cf;

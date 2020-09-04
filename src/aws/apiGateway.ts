@@ -1,5 +1,5 @@
 import {APIGatewayProxyEvent, Context} from 'aws-lambda';
-import {makeContext, LoggerContext} from './context';
+import {makeContext, LambdaContext} from './context';
 import {LoggerOptions} from '../core';
 import {AnyEvent} from './anyEvent';
 
@@ -11,7 +11,7 @@ export function forApiGateway(
   event: AnyEvent,
   context: Context,
   options: Partial<LoggerOptions>
-): LoggerContext | undefined {
+): LambdaContext | undefined {
   if (!isApiGatewayEvent(event)) return;
   return makeContext(context, options, {
     http: {
