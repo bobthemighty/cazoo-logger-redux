@@ -18,7 +18,7 @@ export interface LoggerOptions {
 
 export interface LogFn {
   (msg: string): void;
-  (obj: Record<string, unknown>, msg?: string): void;
+  (obj: any, msg?: string): void;
 }
 
 export interface Logger<TContext extends Context = Context> {
