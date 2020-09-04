@@ -24,11 +24,8 @@ export interface EventRecorder {
 function isEventBridge(
   ctx: LambdaContext | LambdaContext<EventBridgeContext>
 ): ctx is LambdaContext<EventBridgeContext> {
-  if (!('event' in ctx.context)) return false;
-  if (!(typeof ctx.context.event === 'object')) return false;
-  if (null === ctx.context.event) return false;
-  if ('type' in ctx.context.event) return true;
-  return false;
+  if (!('trigger' in ctx.context)) return false;
+  return ctx.context.trigger === 'EventBridge';
 }
 
 export function useEventRecorder<

@@ -32,6 +32,7 @@ describe('When logging in a cloudwatch event context', () => {
     expect(JSON.parse(result)).toStrictEqual({
       level: 'info',
       context: {
+        trigger: 'EventBridge',
         request_id: context.awsRequestId,
         account_id: 'account-id',
         function: {

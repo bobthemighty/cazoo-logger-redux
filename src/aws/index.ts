@@ -3,6 +3,7 @@ import {Logger, LoggerOptions, PinoLogger, LogExtension} from '../core';
 import {forSns} from './sns';
 import {forApiGateway} from './apiGateway';
 import {forCloudFront} from './cloudfront';
+import {forDynamo} from './dynamodb';
 import {LambdaContext} from './context';
 import {forEventBridge, EventBridgeContext} from './eventbridge';
 import {AnyEvent} from './anyEvent';
@@ -27,6 +28,7 @@ function fromContext(event: AnyEvent, ctx: Context, options = {}) {
     forEventBridge(event, ctx, options) ||
     forSns(event, ctx, options) ||
     forCloudFront(event, ctx, options) ||
+    forDynamo(event, ctx, options) ||
     empty();
   return PinoLogger(options, context);
 }

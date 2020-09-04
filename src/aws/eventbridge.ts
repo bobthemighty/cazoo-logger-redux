@@ -17,6 +17,7 @@ export interface EventDetails {
 
 export interface EventBridgeContext extends ContextInfo {
   event: EventDetails;
+  trigger: 'EventBridge';
 }
 
 export function forEventBridge(
@@ -27,6 +28,7 @@ export function forEventBridge(
   if (!isEventBridge(event)) return;
 
   return makeContext<EventBridgeContext>(context, options, {
+    trigger: 'EventBridge',
     event: {
       source: event.source,
       type: event['detail-type'],
