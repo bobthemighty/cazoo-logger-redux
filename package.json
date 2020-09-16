@@ -11,13 +11,15 @@
     "@types/aws-lambda": "^8.10.61",
     "@types/pino": "^6.3.0",
     "@types/split2": "^2.1.6",
+    "@types/uuid": "^8.3.0",
     "deepmerge": "^4.2.2",
     "eslint": "^7.7.0",
     "jest": "^26.4.2",
     "pino": "^6.5.1",
     "split2": "^3.2.2",
     "ts-jest": "^26.2.0",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.10.1",
@@ -30,7 +32,7 @@
     "@types/node": "^13.11.1"
   },
   "scripts": {
-    "test": "jest build",
+    "test": "jest build --coverage",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc",
@@ -48,5 +50,13 @@
   "bugs": {
     "url": "https://github.com/Cazoo-uk/logger/issues"
   },
-  "homepage": "https://github.com/Cazoo-uk/logger#readme"
+  "homepage": "https://github.com/Cazoo-uk/logger#readme",
+  "jest": {
+    "collectCoverageFrom": [
+      "build/src/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
 }

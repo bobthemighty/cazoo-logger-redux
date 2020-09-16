@@ -1,5 +1,5 @@
 import * as logger from '../src';
-import {sink, once} from './helper';
+import {sink} from './helper';
 import {event, context} from './data/cloudwatch';
 
 describe('When logging in a cloudwatch event context', () => {
@@ -10,7 +10,7 @@ describe('When logging in a cloudwatch event context', () => {
   beforeAll(async () => {
     dateSpy = jest.spyOn(Date, 'now').mockImplementation(() => now);
     const stream = sink(true);
-    const p = new Promise((resolve, reject) => {
+    const p = new Promise(resolve => {
       stream.on('data', data => {
         results.push(data);
         if (results.length === 2) resolve();
