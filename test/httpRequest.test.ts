@@ -35,3 +35,22 @@ it('When recording an outbound HTTP request', () => {
 
   expect(request.data.http.req.id).toBe(response.data.http.req.id);
 });
+
+describe('When recording a response alone', () => {
+  const stream = sink();
+  const log = logger.fromContext(event, context, {stream, level: 'debug'});
+  let result: any;
+
+  beforeAll(() => {
+    log.withHttpResponse({status: 400}).info('Bad request');
+    result = stream.read();
+  });
+
+  it('Should record the status', () => {
+    expect(result.data.http.resp.status).toBe(400);
+  });
+
+  it('Should not record an id', () => {
+    expect(result.data.http.req).toBeUndefined();
+  });
+});
