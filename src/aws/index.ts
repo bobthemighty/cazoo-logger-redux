@@ -46,4 +46,4 @@ export function contextFactory<
   };
 }
 
-export {EventBridgeContext, LambdaContext};
+export {EventBridgeContext, LambdaContext, AnyEvent};
