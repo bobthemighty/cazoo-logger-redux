@@ -1,6 +1,7 @@
 import {Context} from 'aws-lambda';
 import {Logger, LoggerOptions, PinoLogger, LogExtension} from '../core';
 import {forSns} from './sns';
+import {forSqs} from './sqs';
 import {forApiGateway} from './apiGateway';
 import {forCloudFront} from './cloudfront';
 import {forDynamo} from './dynamodb';
@@ -29,6 +30,7 @@ function fromContext(event: AnyEvent, ctx: Context, options = {}) {
     forSns(event, ctx, options) ||
     forCloudFront(event, ctx, options) ||
     forDynamo(event, ctx, options) ||
+    forSqs(event, ctx, options) ||
     empty();
   return PinoLogger(options, context);
 }
