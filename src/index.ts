@@ -8,7 +8,7 @@ import {useHttpRecorder, HttpRecorder} from './httpRequest';
 
 import {AnyEvent, contextFactory, LambdaContext} from './aws';
 
-type CazooLogger = Logger &
+export type CazooLogger = Logger &
   TimeoutLogger &
   FluentContext &
   EventRecorder &
