@@ -55,6 +55,8 @@ function _setTimeout(
   this: Logger<LambdaContext> & TimeoutLogger,
   context: Context
 ) {
+  const enable = process.env.CAZOO_ENABLE_TIMEOUT_LOGGING;
+  if (!enable || enable.toLowerCase() === 'false') return;
   if (this.timeoutHandle) return;
   if (!('getRemainingTimeInMillis' in context)) return;
   const timeoutMs = context.getRemainingTimeInMillis() - getTimeoutBuffer();

@@ -53,14 +53,15 @@ describe('Preemptive logging of lambda timeouts', () => {
     stream = sink();
   });
 
+  beforeAll(() => (process.env.CAZOO_ENABLE_TIMEOUT_LOGGING = 'yep'));
+  afterAll(() => delete process.env.CAZOO_ENABLE_TIMEOUT_LOGGING);
+
   const getLogger = (timeout: number) => {
     const context = {
       getRemainingTimeInMillis: (): number => timeout,
     } as Context;
     return logger.fromContext(event, context, {stream, level});
   };
-
-  afterEach(() => delete process.env.CAZOO_LOGGER_TIMEOUT_BUFFER_MS);
 
   describe('when taking the timeout from context', () => {
     it('should not log before the timeout expires', () => {
