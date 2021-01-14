@@ -2,7 +2,7 @@
   "name": "@cazoo/logger",
   "version": "7.1.0-alpha",
   "description": "Codified standards for structured logging",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "directories": {
     "lib": "lib",
     "test": "test"
