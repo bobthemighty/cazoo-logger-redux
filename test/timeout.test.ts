@@ -11,37 +11,33 @@ const timeToTriggerTimeout = 91;
 const timeToTriggerForUnderLimitTimeout = 11;
 const timeoutUnderLimit = 20;
 
-/*
-describe('setting up the timeout buffer', () => {
-  describe('when not passing a value', () => {
-    it('should use the default of 10', () => {
-      const expected = 10
-      const actual = getTimeoutBuffer()
-      expect(actual).toBe(expected)
-    })
-  })
+const getLogger = (timeout: number, stream: Transform, level: logger.Level) => {
+  const context = {
+    getRemainingTimeInMillis: (): number => timeout,
+  } as Context;
+  return logger.fromContext(event, context, {stream, level});
+};
 
-  describe('when passing a numeric value', () => {
-    it('should use the passed numeric value', () => {
-      const expected = 5
-      process.env.CAZOO_LOGGER_TIMEOUT_BUFFER_MS = '5'
-      const actual = getTimeoutBuffer()
-      expect(actual).toBe(expected)
-    })
-  })
+describe('When timeout logging is not enabled', () => {
+  const level = 'error';
+  let stream: Transform;
 
-  describe('when passing a non-numeric value', () => {
-    it('should use the default of 10', () => {
-      const expected = 10
-      process.env.CAZOO_LOGGER_TIMEOUT_BUFFER_MS = 'd'
-      const actual = getTimeoutBuffer()
-      expect(actual).toBe(expected)
-    })
-  })
-})
-*/
+  beforeEach(() => {
+    jest.useFakeTimers();
+    stream = sink();
+  });
 
-describe('Preemptive logging of lambda timeouts', () => {
+  describe('when explicitly providing the timeout', () => {
+    it('should not log when the timeout expires', () => {
+      getLogger(timeout, stream, level);
+      jest.advanceTimersByTime(timeToTriggerTimeout);
+
+      expect(stream.read()).toBeNull();
+    });
+  });
+});
+
+describe('When timeout logging is enabled', () => {
   const msg = 'Lambda Timeout';
   const type = 'lambda.timeout';
   const level = 'error';
@@ -53,25 +49,19 @@ describe('Preemptive logging of lambda timeouts', () => {
     stream = sink();
   });
 
-  const getLogger = (timeout: number) => {
-    const context = {
-      getRemainingTimeInMillis: (): number => timeout,
-    } as Context;
-    return logger.fromContext(event, context, {stream, level});
-  };
-
-  afterEach(() => delete process.env.CAZOO_LOGGER_TIMEOUT_BUFFER_MS);
+  beforeAll(() => (process.env.CAZOO_ENABLE_TIMEOUT_LOGGING = 'yep'));
+  afterAll(() => delete process.env.CAZOO_ENABLE_TIMEOUT_LOGGING);
 
   describe('when taking the timeout from context', () => {
     it('should not log before the timeout expires', () => {
-      getLogger(timeout);
+      getLogger(timeout, stream, level);
       jest.advanceTimersByTime(timeNotToTriggerTimeout);
 
       expect(stream.read()).toBeNull();
     });
 
     it('should log once the timeout expires', () => {
-      getLogger(timeout);
+      getLogger(timeout, stream, level);
       jest.advanceTimersByTime(timeToTriggerTimeout);
 
       expect(stream.read()).toMatchObject(expected);
@@ -80,14 +70,14 @@ describe('Preemptive logging of lambda timeouts', () => {
 
   describe('when explicitly providing the timeout', () => {
     it('should not log before the timeout expires', () => {
-      getLogger(timeout);
+      getLogger(timeout, stream, level);
       jest.advanceTimersByTime(timeNotToTriggerTimeout);
 
       expect(stream.read()).toBeNull();
     });
 
     it('should log once the timeout expires', () => {
-      getLogger(timeout);
+      getLogger(timeout, stream, level);
       jest.advanceTimersByTime(timeToTriggerTimeout);
 
       const actual = stream.read();
@@ -95,14 +85,14 @@ describe('Preemptive logging of lambda timeouts', () => {
     });
 
     it('should not log if the timeout is ridiculously short', () => {
-      getLogger(timeoutUnderLimit);
+      getLogger(timeoutUnderLimit, stream, level);
       jest.advanceTimersByTime(timeToTriggerForUnderLimitTimeout);
 
       expect(stream.read()).toBeNull();
     });
 
     it('should not trigger timeout twice when recreating the logger', () => {
-      const logger = getLogger(timeToTriggerTimeout);
+      const logger = getLogger(timeToTriggerTimeout, stream, level);
       jest.advanceTimersByTime(timeToTriggerTimeout);
       expect(stream.read()).toMatchObject(expected);
 
