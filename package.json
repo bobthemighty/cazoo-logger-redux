@@ -1,6 +1,6 @@
 {
   "name": "cazoo-logger",
-  "version": "7.0.0-alpha",
+  "version": "7.1.0-alpha",
   "description": "Codified standards for structured logging",
   "main": "index.js",
   "directories": {
