@@ -1,5 +1,5 @@
 import {Context} from 'aws-lambda';
-import {PinoLogger, Logger, LoggerOptions} from './core';
+import {Level, PinoLogger, Logger, LoggerOptions} from './core';
 import {addFluentContext, FluentContext} from './fluentContext';
 import {useEventRecorder, EventRecorder} from './eventRecorder';
 import {addTimeout, TimeoutLogger} from './timeout';
@@ -34,3 +34,5 @@ export const fromContext = (
   log.setTimeout(c);
   return log;
 };
+
+export {Level, LoggerOptions} from './core';

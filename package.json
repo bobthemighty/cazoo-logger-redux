@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/aws-lambda": "^8.10.61",
+    "@types/jest": "^26.0.20",
     "@types/pino": "^6.3.0",
     "@types/split2": "^2.1.6",
     "@types/uuid": "^8.3.0",
