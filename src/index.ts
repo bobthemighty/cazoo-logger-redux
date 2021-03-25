@@ -36,3 +36,4 @@ export const fromContext = (
 };
 
 export {Level, LoggerOptions} from './core';
+export { AnyEvent } from './aws';
