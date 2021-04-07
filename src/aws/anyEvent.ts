@@ -10,6 +10,8 @@ import {
   DynamoDBStreamEvent,
   SQSEvent,
   SQSRecord,
+  KinesisStreamEvent,
+  KinesisStreamRecord,
 } from 'aws-lambda';
 
 export type AnyEvent =
@@ -19,7 +21,8 @@ export type AnyEvent =
   | EventBridgeEvent<string, unknown>
   | DynamoDBStreamEvent
   | SQSEvent
-  | SQSRecord;
+  | SQSRecord
+  | KinesisStreamEvent;
 
 type CloudfrontRecord = {
   cf: CloudFrontEvent & {
@@ -31,4 +34,5 @@ export type AnyRecord =
   | SNSEventRecord
   | DynamoDBRecord
   | SQSRecord
-  | CloudfrontRecord;
+  | CloudfrontRecord
+  | KinesisStreamRecord;
