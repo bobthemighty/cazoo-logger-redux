@@ -1,13 +1,14 @@
 import {Context} from 'aws-lambda';
-import {Logger, LoggerOptions, PinoLogger, LogExtension} from '../core';
+import {LogExtension, Logger, LoggerOptions, PinoLogger} from '../core';
 import {forSns} from './sns';
 import {forSqs} from './sqs';
 import {forApiGateway} from './apiGateway';
 import {forCloudFront} from './cloudfront';
 import {forDynamo} from './dynamodb';
 import {LambdaContext} from './context';
-import {forEventBridge, EventBridgeContext} from './eventbridge';
+import {EventBridgeContext, forEventBridge} from './eventbridge';
 import {AnyEvent} from './anyEvent';
+import {forKinesis} from './kinesis';
 
 const UNKNOWN = 'unknown';
 
@@ -31,6 +32,7 @@ function fromContext(event: AnyEvent, ctx: Context, options = {}) {
     forCloudFront(event, ctx, options) ||
     forDynamo(event, ctx, options) ||
     forSqs(event, ctx, options) ||
+    forKinesis(event, ctx, options) ||
     empty();
   return PinoLogger(options, context);
 }
