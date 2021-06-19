@@ -1,23 +1,26 @@
 import {
   APIGatewayProxyEvent,
-  SNSEventRecord,
-  SNSEvent,
-  CloudFrontRequest,
   CloudFrontEvent,
+  CloudFrontRequest,
   CloudFrontRequestEvent,
-  EventBridgeEvent,
   DynamoDBRecord,
   DynamoDBStreamEvent,
+  EventBridgeEvent,
+  KinesisStreamEvent,
+  KinesisStreamRecord,
+  SNSEvent,
+  SNSEventRecord,
   SQSEvent,
   SQSRecord,
 } from 'aws-lambda';
 
 export type AnyEvent =
-  | SNSEvent
   | APIGatewayProxyEvent
   | CloudFrontRequestEvent
-  | EventBridgeEvent<string, unknown>
   | DynamoDBStreamEvent
+  | EventBridgeEvent<string, unknown>
+  | KinesisStreamEvent
+  | SNSEvent
   | SQSEvent
   | SQSRecord;
 
@@ -28,7 +31,8 @@ type CloudfrontRecord = {
 };
 
 export type AnyRecord =
-  | SNSEventRecord
+  | CloudfrontRecord
   | DynamoDBRecord
-  | SQSRecord
-  | CloudfrontRecord;
+  | KinesisStreamRecord
+  | SNSEventRecord
+  | SQSRecord;
