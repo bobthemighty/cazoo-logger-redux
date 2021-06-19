@@ -1,6 +1,5 @@
 import * as logger from '../src';
 import {sink, once} from './helper';
-import {event, context} from './data/dynamodb';
 import {URL} from 'url';
 
 it('When logging a url', async () => {
