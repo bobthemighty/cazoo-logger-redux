@@ -31,5 +31,5 @@ export function addFluentContext<TLogger extends Logger>(
       value: withContext,
       enumerable: true,
     },
-  });
+  }) as TLogger & FluentContext;
 }

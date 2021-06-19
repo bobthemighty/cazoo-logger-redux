@@ -8,7 +8,7 @@ it('When logging in an S3 SNS context', async () => {
   const log = logger.fromContext(event, context, {stream});
   log.info('Hello world');
 
-  const result = await once(stream, 'data');
+  const result = await once(stream);
 
   expect(result).toStrictEqual({
     level: 'info',
@@ -40,7 +40,7 @@ it('When logging in a non S3 SNS context', async () => {
   const log = logger.fromContext(nonS3Event, context, {stream});
   log.info('Hello world');
 
-  const result = await once(stream, 'data');
+  const result = await once(stream);
 
   expect(result).toStrictEqual({
     level: 'info',

@@ -58,7 +58,7 @@ export function useErrorRecorder<TLogger extends Logger>(
       value: _recordErrorAsWarning,
       enumerable: true,
     },
-  });
+  }) as TLogger & ErrorRecorder;
 }
 
 export interface ErrorRecorder {
