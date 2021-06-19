@@ -8,7 +8,7 @@ it('When logging in an SQS event context', async () => {
   const log = logger.fromContext(record, context, {stream});
   log.info('Hello world');
 
-  const result = await once(stream, 'data');
+  const result = await once(stream);
 
   expect(result).toStrictEqual({
     level: 'info',

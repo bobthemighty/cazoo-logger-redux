@@ -43,7 +43,7 @@ export function useEventRecorder<
       },
       enumerable: true,
     },
-  });
+  }) as TLogger & EventRecorder;
   if (isEventBridge(target.context)) {
     const event = target.context.context.event;
     write(target, event.type, event.id, 'IN');

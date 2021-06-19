@@ -82,5 +82,5 @@ export function addTimeout<T extends Logger<LambdaContext>>(
       enumerable,
       value: _clearTimeout,
     },
-  });
+  }) as T & TimeoutLogger;
 }

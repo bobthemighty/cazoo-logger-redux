@@ -1,6 +1,6 @@
 import SonicBoom = require('sonic-boom');
 import Pino = require('pino');
-import deepmerge = require('deepmerge');
+import {merge} from 'merge-anything';
 
 // Type defs
 
@@ -59,7 +59,7 @@ function makeOutput(spec?: OutputSpec) {
 }
 
 export function child<T extends Logger>(logger: T, context: Context): T {
-  const merged = deepmerge(logger.context, context);
+  const merged = merge(logger.context, context);
   const instance = logger.instance.child(merged);
   return {
     ...logger,

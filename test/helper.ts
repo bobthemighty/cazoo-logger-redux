@@ -8,15 +8,12 @@ export function sink(raw = false): Transform {
   return split(JSON.parse);
 }
 
-export function once<T>(
-  emitter: NodeJS.EventEmitter,
-  name: string
-): Promise<T> {
+export function once<T>(emitter: NodeJS.EventEmitter): Promise<T> {
   return new Promise((resolve, reject) => {
-    if (name !== 'error') emitter.once('error', reject);
-    emitter.once(name, (...args) => {
+    emitter.once('error', reject);
+    emitter.once('data', d => {
       emitter.removeListener('error', reject);
-      resolve(...args);
+      resolve(d);
     });
   });
 }

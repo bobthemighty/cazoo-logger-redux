@@ -81,5 +81,5 @@ export function useHttpRecorder<TLogger>(
       value: _withHttpResponse,
       enumerable: true,
     },
-  });
+  }) as TLogger & HttpRecorder;
 }

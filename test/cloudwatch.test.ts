@@ -13,7 +13,7 @@ describe('When logging in a cloudwatch event context', () => {
     const p = new Promise(resolve => {
       stream.on('data', data => {
         results.push(data);
-        if (results.length === 2) resolve();
+        if (results.length === 2) resolve(results);
       });
     });
 

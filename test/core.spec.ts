@@ -11,7 +11,7 @@ it('When including data', async () => {
   const log = logger.empty({stream, level: 'debug'});
   log.withData({a: 1, b: 2}).debug('a thing happened');
 
-  const request = await once(stream, 'data');
+  const request = await once(stream);
   expect(request).toMatchObject({
     level: 'debug',
     msg: 'a thing happened',
@@ -29,7 +29,7 @@ it('When options are set in the environment', async () => {
 
   const log = logger.empty({stream});
   log.debug('random fandom');
-  const request = await once(stream, 'data');
+  const request = await once(stream);
 
   expect(request).toMatchObject({
     level: 'debug',

@@ -8,7 +8,7 @@ it('When logging in a DynamoDB stream event context', async () => {
   const log = logger.fromContext(event, context, {stream});
   log.info('Hello world');
 
-  const result = await once(stream, 'data');
+  const result = await once(stream);
 
   expect(result).toStrictEqual({
     level: 'info',
