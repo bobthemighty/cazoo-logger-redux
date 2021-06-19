@@ -12,7 +12,7 @@ it('When logging a url', async () => {
       stream
   });
   log.withData({
-      uri: new URL("https://www.google.com")
+      uri: new URL("https://www.google.com/")
   }).withData({
       now
   }).info('Hello world');
@@ -23,7 +23,7 @@ it('When logging a url', async () => {
     level: 'info',
     msg: 'Hello world',
     data: {
-        uri: 'https://www.google.com',
+        uri: 'https://www.google.com/',
         now: now.toISOString()
     }
   });
